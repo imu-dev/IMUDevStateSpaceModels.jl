@@ -4,7 +4,6 @@
     tt, xx, ΣΣ = parse_args(h)
     n = size(xx, 1)
     layout := (n, 1)
-    c = get(plotattributes, :linecolor, :auto)
     for i in 1:n
         if !isnothing(ΣΣ)
             for ribbon_width in 1:2
@@ -34,7 +33,6 @@
 end
 
 function parse_args(h::TrajectoryPlot)
-    arg_len = length(h.args)
     if arg_len < 1
         return error("Trajectory Plots expects at least one argument")
     elseif arg_len == 1
