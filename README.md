@@ -15,4 +15,4 @@ The primary aim of this package is to provide a relatively light module that fac
 
 ## How to use
 
-The package introduces `LinearGaussianStateSpaceModel` (alias `LinGsnSSM`) to define a model. Individual and batched trajectories can be sampled with `rand` and `rand!`.
+The package introduces `LinearGaussianStateSpaceModel` (alias `LinGsnSSM`) to define a model. Individual and batched trajectories can be sampled with `rand` and `rand!`. Individual trajectories can be visualized with `trajectoryplot`.

@@ -1,3 +1,7 @@
+using Revise
+using Pkg
+Pkg.activate(joinpath(homedir(), ".julia", "dev", "IMUDevStateSpaceModels", "examples"))
+
 using Distributions
 using IMUDevStateSpaceModels
 using LinearAlgebra
@@ -17,7 +21,7 @@ function constant_acceleration_model(δt)
     return LinGsnSSM(; F, Q, H, R)
 end
 
-model = constant_acceleration_model_3d(0.01)
+model = constant_acceleration_model(0.01)
 ℙx₀ = MvNormal(zeros(size(model, :state)), I)
 num_samples = 10
 num_timepoints = 100
@@ -29,20 +33,9 @@ underlying_state, obs = rand(model, rand(ℙx₀), num_timepoints)
 # sample a batch of trajectories
 xx, yy = rand(model, x0s, num_timepoints)
 
-plot(plot(0:num_timepoints,
-          yy[1, :];
-          title="observation", ylabel="position",
-          label=""),
-     plot(0:num_timepoints,
-          xx[1, :];
-          title="position",
-          label=""),
-     plot(0:num_timepoints,
-          xx[2, :];
-          label="", title="velocity"),
-     plot(0:num_timepoints,
-          xx[3, :];
-          label="", title="acceleration",
-          xlabel="time");
+plot(trajectoryplot(0:num_timepoints, obs;
+                    label="observations", seriestype=:scatter),
+     trajectoryplot(0:num_timepoints, underlying_state;
+                    label=["position" "velocity" "acceleration"]);
      size=(1200, 700),
-     layout=(4, 1))
+     layout=grid(2, 1; heights=[0.25, 0.75]))
