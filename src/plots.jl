@@ -33,6 +33,7 @@
 end
 
 function parse_args(h::TrajectoryPlot)
+    arg_len = length(h.args)
     if arg_len < 1
         return error("Trajectory Plots expects at least one argument")
     elseif arg_len == 1
