@@ -1,6 +1,6 @@
 # IMUDevStateSpaceModels
 
-[![Build Status](https://github.com/mmider/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/mmider/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build Status](https://github.com/imu-dev/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/imu-dev/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 Minimalist implementation of some State Space Models that is geared towards working with Neural Networks.
 
