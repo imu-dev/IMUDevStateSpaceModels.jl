@@ -20,6 +20,8 @@ end
 
 const LinGsnSSM = LinearGaussianStateSpaceModel
 
+LinGsnSSM(T; F, Q, H, R) = LinGsnSSM(T.(F), T.(Q), T.(H), T.(R))
+
 Base.size(m::LinGsnSSM, ::Val{:state}) = size(m.F, 1)
 function Base.size(m::LinGsnSSM, ::Union{Val{:observation},Val{:obs}})
     return size(m.H, 1)
