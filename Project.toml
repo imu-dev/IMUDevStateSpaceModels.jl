@@ -1,7 +1,7 @@
 name = "IMUDevStateSpaceModels"
 uuid = "bcf5af51-d7d5-4464-a2f2-1f49491032f8"
 authors = ["Marcin Mider <marcin.mider@gmail.com> and contributors"]
-version = "0.3.0"
+version = "0.3.1"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -11,6 +11,8 @@ RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 Term = "22787eb5-b846-44ae-b979-8e399b8463ab"
 
 [compat]
+Distributions = "0.25"
+RecipesBase = "1"
 Term = "2"
 julia = "1.10"
 
