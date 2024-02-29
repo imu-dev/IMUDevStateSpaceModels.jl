@@ -12,8 +12,11 @@ The primary aim of this package is to provide a relatively light module that fac
 
 - defining a State Space Model
 - defining transition functions that work for **batches** (so as to facilitate a seamless integration with Neural Nets-not included in this package)
-- generate sample trajectories (also in batches)
+- generate sample trajectories (single or in batches)
 - plot the trajectories
+
+> [!IMPORTANT]
+> This package **<u>is not</u>** registered with Julia's [General Registry](https://github.com/JuliaRegistries/General), but instead, with `imu.dev`'s local [IMUDevRegistry](https://github.com/imu-dev/IMUDevRegistry). In order to use this package you will need to add [IMUDevRegistry](https://github.com/imu-dev/IMUDevRegistry) to the list of your registries.
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
 [docs-dev-url]: https://imu-dev.github.io/IMUDevStateSpaceModels.jl/dev
