@@ -1,8 +1,15 @@
 """
-State space model with linear dynamics, Gaussian noise and linear, Gaussian
-observations. It is given by the following equations:
-    x_{t+1} = F * x_t + w_t,  w_t ~ N(0, Q)
-    y_t = H * x_t + v_t,  v_t ~ N(0, R)
+    LinearGaussianStateSpaceModel([T::DataType]; F, Q, H, R)
+
+State space model with linear dynamics, additive Gaussian noise and linear,
+Gaussian observations. It is given by the following set of equations:
+
+```math
+\\begin{cases}
+x_{t+1} &= F \\times x_t + w_t,\\qquad w_t \\sim N(0, Q)\\\\
+y_t &= H \\times x_t + v_t,\\qquad  v_t \\sim N(0, R)
+\\end{cases}
+```
 
 !!! tip
     You can use `LinGsnSSM` alias for `LinearGaussianStateSpaceModel`.
@@ -20,15 +27,28 @@ end
 
 const LinGsnSSM = LinearGaussianStateSpaceModel
 
-LinGsnSSM(T; F, Q, H, R) = LinGsnSSM(T.(F), T.(Q), T.(H), T.(R))
+LinGsnSSM(T::DataType; F, Q, H, R) = LinGsnSSM(T.(F), T.(Q), T.(H), T.(R))
 
 Base.size(m::LinGsnSSM, ::Val{:state}) = size(m.F, 1)
 function Base.size(m::LinGsnSSM, ::Union{Val{:observation},Val{:obs}})
     return size(m.H, 1)
 end
 
+"""
+    transition_matrix(m::LinGsnSSM)
+
+Return state evolution matrix ``F`` of the [`LinearGaussianStateSpaceModel`](@ref)
+`m`.
+"""
 transition_matrix(m::LinGsnSSM) = m.F
 state_noise_cov(m::LinGsnSSM) = m.Q
+
+"""
+    observation_matrix(m::LinGsnSSM)
+
+Return the observation matrix ``H`` of the [`LinearGaussianStateSpaceModel`](@ref)
+`m`.
+"""
 observation_matrix(m::LinGsnSSM) = m.H
 observation_noise_cov(m::LinGsnSSM) = m.R
 

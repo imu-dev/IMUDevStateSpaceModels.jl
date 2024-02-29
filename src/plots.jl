@@ -3,7 +3,7 @@
 @recipe function f(h::TrajectoryPlot)
     tt, xx, ΣΣ = parse_args(h)
     n = size(xx, 1)
-    layout := (n, 1)
+    layout := get(plotattributes, :layout, (n, 1))
     for i in 1:n
         if !isnothing(ΣΣ)
             for ribbon_width in 1:2
@@ -26,6 +26,7 @@
         @series begin
             subplot := i
             seriestype := get(plotattributes, :seriestype, :path)
+            label := get(plotattributes, :label, "")
             linewidth := 2
             tt, xx[i, :]
         end
@@ -62,7 +63,7 @@ function parse_args(h::TrajectoryPlot)
         return tt, xx, ΣΣ
     elseif arg_len == 3
         tt, xx, ΣΣ = h.args
-        if !(tt isa AbstractVector && xx isa AbstractMatrix && σσ isa Abstract3Tensor)
+        if !(tt isa AbstractVector && xx isa AbstractMatrix && ΣΣ isa Abstract3Tensor)
             return error("3-parameter Trajectory Plot expects a vector of " *
                          "timepoints, a matrix of states, and a 3-tensor of " *
                          "state covariances.")
@@ -72,3 +73,21 @@ function parse_args(h::TrajectoryPlot)
         return error("Trajectory Plots expects at most three arguments")
     end
 end
+
+"""
+    trajectoryplot([tt], xx::AbstractMatrix; seriestype=:path, label="")
+
+Create a plot of trajectories, each shown on its own subplot. The `xx` matrix
+should have size `(n, t)` where `n` is the number of states and `t` is the
+number of timepoints. The `tt` vector should have length `t` and is optional.
+
+    trajectoryplot([tt], xx::AbstractMatrix, ΣΣ::Abstract3Tensor;
+                   seriestype=:path, label="")
+
+Same as `trajectoryplot([tt], xx::AbstractMatrix; kwargs...)`, but also
+includes an error band for each trajectory, inferred from the covariance
+matrices `ΣΣ`. The `ΣΣ` 3-tensor should have size `(n, n, t)` where `n` is the
+number of states and `t` is the number of timepoints. Note that only the
+diagonal elements of `ΣΣ` are used to compute the error bands.
+"""
+trajectoryplot

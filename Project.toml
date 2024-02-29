@@ -1,7 +1,7 @@
 name = "IMUDevStateSpaceModels"
 uuid = "bcf5af51-d7d5-4464-a2f2-1f49491032f8"
 authors = ["Marcin Mider <marcin.mider@gmail.com> and contributors"]
-version = "0.2.3"
+version = "0.3.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"

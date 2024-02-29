@@ -3,20 +3,24 @@ Parent type to all State Space Models. `T` is the eltype of state.
 
 In this package we deal with models of the form:
 
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_k = g(x_k) + δ_k, δ_k ~ Δ
+```math
+\\begin{cases}
+x_{k+1} &= f(x_k) + ω_k,\\qquad ω_k \\sim Ω,\\\\
+y_k &= g(x_k) + δ_k,\\qquad δ_k \\sim Δ,
+\\end{cases}
+```
 
 where
-- `x_k` is the state,
-- `y_k` is the observation,
-- `f` is the state transition function,
-- `g` is the observation function,
-- `ω_k` is the state noise,
-- `δ_k` is the observation noise,
-- `Ω` is the distribution of the state noise, and
-- `Δ` is the distribution of the observation noise.
+- ``x_k`` is the state,
+- ``y_k`` is the observation,
+- ``f`` is the state transition function,
+- ``g`` is the observation function,
+- ``ω_k`` is the state noise,
+- ``δ_k`` is the observation noise,
+- ``Ω`` is the distribution of the state noise, and
+- ``Δ`` is the distribution of the observation noise.
 
-In particular, we do not deal with control inputs and we assume a linearly
+In particular, we **do not** deal with control inputs and we assume a linearly
 additive noise model.
 
 !!! warning
@@ -38,20 +42,22 @@ Base.eltype(::StateSpaceModel{T}) where {T} = T
 """
     state_transition(x, m::StateSpaceModel)
 
-State transition function `f` in the state space model:
-    
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_k = g(x_k) + δ_k, δ_k ~ Δ
+State transition function ``f`` of the [`StateSpaceModel`](@ref) `m`.
+
+!!! default "Important"
+    Any concrete implementation of the [`StateSpaceModel`](@ref) must override
+    this function.
 """
 state_transition(::Any, m::StateSpaceModel) = throw(NotImplExcpt(`state_transition`, m))
 
 """
     observation_emission(x, m::StateSpaceModel)
 
-Observation function `g` in the state space model:
-        
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_k = g(x_k) + δ_k, δ_k ~ Δ
+Observation function ``g`` of the [`StateSpaceModel`](@ref) `m`.
+
+!!! default "Important"
+    Any concrete implementation of the [`StateSpaceModel`](@ref) must override
+    this function.
 """
 function observation_emission(::Any, m::StateSpaceModel)
     throw(NotImplExcpt(`observation_emission`, m))
@@ -60,27 +66,29 @@ end
 """
     state_noise(m::StateSpaceModel)
 
-State noise generator `Ω` in the state space model:
+State noise generator ``Ω`` of the [`StateSpaceModel`](@ref) `m`.
 
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_k = g(x_k) + δ_k, δ_k ~ Δ
+!!! default "Important"
+    Any concrete implementation of the [`StateSpaceModel`](@ref) must override
+    this function.
 """
 state_noise(m::StateSpaceModel) = throw(NotImplExcpt(`state_noise`, m))
 
 """
     observation_noise(m::StateSpaceModel)
 
-Observation noise generator `Δ` in the state space model:
+Observation noise generator ``Δ`` of the [`StateSpaceModel`](@ref) `m`.
 
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_k = g(x_k) + δ_k, δ_k ~ Δ
+!!! default "Important"
+    Any concrete implementation of the [`StateSpaceModel`](@ref) must override
+    this function.
 """
 observation_noise(m::StateSpaceModel) = throw(NotImplExcpt(`observation_noise`, m))
 
 """
     Base.size(m::StateSpaceModel)
 
-Lengths of the state and observation vectors.
+Return lengths of the state and observation vectors.
 """
 Base.size(m::StateSpaceModel) = (state=size(m, :state), observation=size(m, :obs))
 
@@ -90,6 +98,11 @@ Base.size(m::StateSpaceModel) = (state=size(m, :state), observation=size(m, :obs
 Length of the state or observation vectors depending on the value of `s`:
 - `s=:state` or `s=Val{:state}`: length of the state,
 - `s=:observation` or `s=:obs` or `s=Val{:observation}` or `s=Val{:obs}`: length of the observation.
+
+!!! default "Important"
+    Any concrete implementation of the [`StateSpaceModel`](@ref) must override
+    functions `Base.size(m::StateSpaceModel, ::Val{:state})` and
+    `Base.size(m::StateSpaceModel, ::Union{Val{:observation},Val{:obs}})`.
 """
 Base.size(m::StateSpaceModel, s::Symbol) = size(m, Val{s}())
 function Base.size(m::StateSpaceModel, ::Val{:state})
@@ -112,9 +125,14 @@ end
                x::Union{<:AbstractVector, <:AbstractMatrix};
                noise_gen=state_noise(m))
 
-Perform a single (random) step: `f(x_k) + ω_k, ω_k ~ Ω`
-- for a single state `x_k := x` if `x` is a vector, or
-- for a batch of states `x_k^(i) := x[:, i]` if `x` is a matrix.
+Perform a single (random) step:
+
+```math
+f(x_k) + ω_k,\\quad ω_k \\sim Ω
+```
+
+- for a single state ``xₖ :=`` `x` if `x` is a vector, or
+- for a batch of states ``xₖ⁽ⁱ⁾ :=`` `x[:, i]` if `x` is a matrix.
 """
 function state_step(rng::AbstractRNG, m::StateSpaceModel, x::AbstractVector;
                     noise_gen=state_noise(m))
@@ -130,9 +148,13 @@ end
              x::Union{<:AbstractVector, <:AbstractMatrix};
              noise_gen=observation_noise(m))
 
-Perform a single (random) observation step: `g(x_k) + δ_k, δ_k ~ Δ`
-- for a single state `x_k := x` if `x` is a vector, or
-- for a batch of states `x_k^(i) := x[:, i]` if `x` is a matrix.
+Perform a single (random) observation step:
+```math
+g(x_k) + δ_k,\\quad δ_k \\sim Δ
+```
+
+- for a single state ``xₖ :=`` `x` if `x` is a vector, or
+- for a batch of states ``xₖ⁽ⁱ⁾ :=`` `x[:, i]` if `x` is a matrix.
 """
 function obs_step(rng::AbstractRNG, m::StateSpaceModel, x::AbstractVector;
                   noise_gen=observation_noise(m))
@@ -148,13 +170,17 @@ end
          x::Union{<:AbstractVector,<:AbstractMatrix};
          state_noise_gen=state_noise(m), obs_noise_gen=observation_noise(m))
 
-Perform a single (random) step in the state space model:
+Perform a single (random) step:
 
-    x_{k+1} = f(x_k) + ω_k, ω_k ~ Ω
-    y_{k+1} = g(x_{k+1}) + δ_{k+1}, δ_{k+1} ~ Δ
+```math
+\\begin{cases}
+x° &= f(x_k) + ω_k,\\qquad ω_k \\sim Ω,\\\\
+y° &= g(x°) + δ_k,\\qquad δ_k \\sim Δ,
+\\end{cases}
+```
 
-- for a single state `x_k := x` if `x` is a vector, or
-- for a batch of states `x_k^(i) := x[:, i]` if `x` is a matrix.
+- for a single state ``xₖ := `` `x` if `x` is a vector, or
+- for a batch of states ``xₖ⁽ⁱ⁾ := `` `x[:, i]` if `x` is a matrix.
 """
 function step(rng::AbstractRNG, m::StateSpaceModel,
               x::Union{<:AbstractVector,<:AbstractMatrix};
@@ -199,6 +225,11 @@ state trajectory in `out_x` (if `out_x` provided) and store the observations in
 Sample a batch of trajectories of the state space model `m`, each starting from
 a separate `x0[:, i]`, store the state trajectory in `out_x` (if `out_x`
 provided) and store the observations in `out` or `out_y`.
+
+!!! note
+    `x0` will be stored in `out_x` (if provided) as the first state and `y0`
+    (sampled from `x0`) will be stored in `out_y` (or `out`) as the first
+    observation.
 """
 function Random.rand!(rng::AbstractRNG, out::AbstractMatrix, m::StateSpaceModel,
                       x0::AbstractVector)
@@ -300,6 +331,11 @@ the state trajectory and the observations.
 
 Sample a batch of trajectories of the state space model `m`, each starting from
 a separate `x0[:, i]` and return the state trajectories and the observations.
+
+!!! note
+    `num_obs` is the number of observations to be sampled, excluding the
+    initial state. However, the initial state (as well as the "zeroth"
+    observation) will be prepended to the output arrays.
 """
 function Random.rand(rng::AbstractRNG, m::StateSpaceModel, x0::AbstractVector,
                      num_obs::Int)
