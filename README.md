@@ -1,5 +1,6 @@
 # IMUDevStateSpaceModels
 
+[![][docs-dev-img]][docs-dev-url]
 [![Build Status](https://github.com/imu-dev/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/imu-dev/IMUDevStateSpaceModels.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 A minimalist implementation of some State Space Models that is geared towards working with Neural Networks.
@@ -13,3 +14,6 @@ The primary aim of this package is to provide a relatively light module that fac
 - defining transition functions that work for **batches** (so as to facilitate a seamless integration with Neural Nets-not included in this package)
 - generate sample trajectories (also in batches)
 - plot the trajectories
+
+[docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
+[docs-dev-url]: https://imu-dev.github.io/IMUDevStateSpaceModels.jl/dev
