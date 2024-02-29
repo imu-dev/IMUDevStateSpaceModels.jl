@@ -16,3 +16,4 @@ makedocs(; sitename="IMUDevStateSpaceModels",
 #=deploydocs(
     repo = "<repository url>"
 )=#
+deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
