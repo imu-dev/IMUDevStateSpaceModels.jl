@@ -1,6 +1,7 @@
 module IMUDevStateSpaceModels
 
 using Distributions
+using IMUDevTools
 using Markdown
 using Random
 using RecipesBase
@@ -10,7 +11,6 @@ using Term.TermMarkdown
 const Abstract3Tensor = AbstractArray{<:Any,3}
 
 include("utils.jl")
-include("not_implemented_exception.jl")
 include("state_space_model.jl")
 include("gaussian_state_space_model.jl")
 include("linear_gaussian_state_space_model.jl")
