@@ -17,7 +17,7 @@ For in-place sampling the underlying state can be discarded by passing only a co
 
 In the following example we first show how to sample a single trajectory and then a batch of trajectories.
 
-```julia
+```@example sampling_example
 using Distributions
 using IMUDevStateSpaceModels
 using LinearAlgebra
@@ -35,12 +35,18 @@ function constant_acceleration_model_2d(δt)
 end
 
 m = constant_acceleration_model_2d(0.01)
+```
+
+```@example sampling_example
 ℙx₀ = MvNormal(zeros(size(m, :state)), I)
 num_timepoints = 100
 
 # sample a single trajectory
 xx_single, yy_single = rand(m, rand(ℙx₀), num_timepoints)
+```
 
+
+```@example sampling_example
 # sample a batch of trajectories
 num_samples = 10
 x0s = rand(ℙx₀, num_samples)

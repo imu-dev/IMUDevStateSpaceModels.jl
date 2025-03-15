@@ -6,7 +6,7 @@ makedocs(; sitename="IMUDevStateSpaceModels",
          modules=[IMUDevStateSpaceModels],
          checkdocs=:exports,
          pages=["Home" => "index.md",
-                "Manual" => ["Models" => joinpath("pages", "types.md"),
+                "Manual" => ["Models" => joinpath("pages", "models.md"),
                              "Sampling" => joinpath("pages", "sampling.md"),
                              "Plotting" => joinpath("pages", "plotting.md")]])
 
@@ -16,7 +16,7 @@ makedocs(; sitename="IMUDevStateSpaceModels",
 #=deploydocs(
     repo = "<repository url>"
 )=#
-deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
-# if get(ENV, "CI", "false") == "true"
-#     deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
-# end
+# deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
+if get(ENV, "CI", "false") == "true"
+    deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
+end

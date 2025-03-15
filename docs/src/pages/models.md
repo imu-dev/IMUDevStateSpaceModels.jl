@@ -93,10 +93,10 @@ observation_matrix
 ## Example of a Non-linear Non-Gaussian State Space Model
 
 More general models must be implemented by the user by adhering to the [`StateSpaceModel`](@ref) interface. Below is an example of a 1-dimensional state evolving as a double-well potential with Cauchy noise and non-linear observation model perturbed by Poisson noise:
-```julia
+
+```@example myexample
 using Distributions
 using IMUDevStateSpaceModels
-using Plots
 
 const SSMs = IMUDevStateSpaceModels
 
@@ -132,15 +132,22 @@ SSMs.observation_emission(x, ::MySSM) = ceil.(x)
     Notice that despite the model being 1-dimensional we don't treat it as a scalar-valued process, but instead, as a 1-element vector-valued process. In particular, we use the [Distributions.jl](https://github.com/JuliaStats/Distributions.jl/tree/master) `Product` to compose Univariate distributions into a Multivariate one.
 
 Once defined, we can define a model and, for instance, sample and plot trajectories (see [Sampling](@ref) and [Plotting](@ref) sections for more details):
-```julia
-using Plots
 
+```@example myexample
 model = MySSM(0.01, 1.0, 0.0, 0.001, 1)
 
 x₀ = [1.0]
 num_timepoints = 100
 xx, yy = rand(model, x₀, num_timepoints)
+```
+
+
+```@example myexample
+using Plots
 
 plot(trajectoryplot(0:num_timepoints, yy; seriestype=:scatter, label="", title="Observations"),
      trajectoryplot(0:num_timepoints, xx; seriestype=:scatter, label="", title="Underlying state"))
+savefig("non_linear_non_gsn_example.png"); nothing # hide
 ```
+
+![](non_linear_non_gsn_example.png)
