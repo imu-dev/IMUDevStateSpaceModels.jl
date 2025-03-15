@@ -1,7 +1,7 @@
 # An example of a StateSpaceModel with a non-linear state transition function,
 # a non-linear observation function and non-Gaussian noise.
 using Pkg
-Pkg.activate(joinpath(homedir(), ".julia", "dev", "IMUDevStateSpaceModels", "examples"))
+Pkg.activate(@__DIR__)
 
 using Distributions
 using IMUDevStateSpaceModels

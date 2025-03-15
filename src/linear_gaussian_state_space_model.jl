@@ -1,4 +1,8 @@
 """
+    $(TYPEDEF)
+
+# Constructor
+
     LinearGaussianStateSpaceModel([T::DataType]; F, Q, H, R)
 
 State space model with linear dynamics, additive Gaussian noise and linear,

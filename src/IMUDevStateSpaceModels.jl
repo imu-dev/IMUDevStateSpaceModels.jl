@@ -1,15 +1,18 @@
 module IMUDevStateSpaceModels
 
 using Distributions
-using IMUDevTools
+using DocStringExtensions
 using Markdown
 using Random
 using RecipesBase
 using Term
 using Term.TermMarkdown
 
+import Random: rand!
+
 const Abstract3Tensor = AbstractArray{<:Any,3}
 
+include("not_implemented_exception.jl")
 include("utils.jl")
 include("state_space_model.jl")
 include("gaussian_state_space_model.jl")

@@ -16,4 +16,6 @@ makedocs(; sitename="IMUDevStateSpaceModels",
 #=deploydocs(
     repo = "<repository url>"
 )=#
-deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
+if get(ENV, "CI", "false") == "true"
+    deploydocs(; repo="github.com/imu-dev/IMUDevStateSpaceModels.jl.git")
+end

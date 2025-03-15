@@ -1,4 +1,6 @@
 """
+    $(TYPEDEF)
+
 Parent type to Gaussian State Space Models of the form:
 
 ```math

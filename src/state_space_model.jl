@@ -1,4 +1,6 @@
 """
+    $(TYPEDEF)
+
 Parent type to all State Space Models. `T` is the eltype of state.
 
 In this package we deal with models of the form:

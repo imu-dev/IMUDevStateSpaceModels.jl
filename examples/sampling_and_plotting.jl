@@ -1,5 +1,5 @@
 using Pkg
-Pkg.activate(joinpath(homedir(), ".julia", "dev", "IMUDevStateSpaceModels", "examples"))
+Pkg.activate(@__DIR__)
 
 using Distributions
 using IMUDevStateSpaceModels
